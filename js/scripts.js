@@ -16,6 +16,15 @@ $(document).ready(function(){
                                '</div>');
   });
 
+  $("#add-phone").click(function() {
+    $("#new-phones").append('<div class="new-phone">' +
+                              '<div class="form-group">' +
+                              '<label for="new-phone">Phone</label>' +
+                              '<input type="text" class="form-control new-phone">' +
+                              '</div>' +
+                            '</div>');
+  });
+
   $('form#new-contact').submit(function(event){
     event.preventDefault();
 
@@ -24,7 +33,8 @@ $(document).ready(function(){
 
     var newContact = { firstName: inputtedFirstName,
                       lastName : inputtedLastName,
-                      addresses : []};
+                      addresses : [],
+                      phones:[] };
 
     $(".new-address").each(function(){
       var inputtedStreet= $(this).find("input.new-street").val();
@@ -33,6 +43,13 @@ $(document).ready(function(){
 
       var newAddress = {street: inputtedStreet, city: inputtedCity, state: inputtedState};
       newContact.addresses.push(newAddress);
+    });
+
+    $("input.new-phone").each(function() {
+      alert("loop!");
+      var inputtedPhone = $(this).val();
+      var newPhone = {numbers: inputtedPhone};
+      newContact.phones.push(newPhone);
     });
 
     $('ul.contact').append("<li><span class = 'contact'>" +
@@ -45,6 +62,7 @@ $(document).ready(function(){
     $("input.new-street").val("");
     $("input.new-city").val("");
     $("input.new-state").val("");
+    $("input.new-phone").val("");
 
     $(".contact").last().click(function() {
       $("#show-contact").show();
@@ -56,8 +74,13 @@ $(document).ready(function(){
         $("ul#addresses").append("<li>" + address.street + ", " +
                                   address.city + ", " +
                                   address.state + "</li>");
+      })
+      $("ul#phone-numbers").text("");
+
+      newContact.phones.forEach(function(phone) {
+        $("ul#phone-numbers").append("<li>" + phone.numbers + "</li>");
       });
     });
-
   });
 });
+
